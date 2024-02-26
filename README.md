@@ -33,65 +33,31 @@
 
 
 ## 📣 News
-* ⏳⏳⏳ Training a stronger model under a higher image resolution (e.g 768 × 768).
-
-* ⏳⏳⏳ Training MoE-LLaVA-Qwen1.5 to support Chinese better.
-* **[2024.02.03]**  🎉 We release a stronger [MoE-LLaVA-StableLM](https://huggingface.co/LanguageBind/MoE-LLaVA-StableLM-1.8B-4e-384). The average performance is close to LLaVA-1.5-7B by using **2.0B** sparse activated parameters, checking our [model zoo](#-model-zoo).
-* **[2024.02.02]**  🤝 Enjoying the [![Replicate demo and cloud API](https://replicate.com/camenduru/moe-llava/badge)](https://replicate.com/camenduru/moe-llava) and [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/camenduru/MoE-LLaVA-jupyter/blob/main/MoE_LLaVA_jupyter.ipynb), created by [@camenduru](https://github.com/camenduru), who generously supports our research!
-* **[2024.02.01]**  🔥 People who cannot access HF can now download the model through the <img src="https://github.com/PKU-YuanGroup/LLMBind/raw/main/assets/modelscope_logo.png" width="20px" style="max-width: 100%;"> model scope, checking our [model zoo](#-model-zoo).
-* **[2024.01.30]**  🔥 We release a stronger [MoE-LLaVA-Phi2](https://huggingface.co/LanguageBind/MoE-LLaVA-Phi2-2.7B-4e-384). The average performance **surpasses LLaVA-1.5-7B by using 3.6B** sparse activated parameters, checking our [model zoo](#-model-zoo).
-* **[2024.01.27]**  🤗 [Hugging Face demo](https://huggingface.co/spaces/LanguageBind/MoE-LLaVA) and **all codes & datasets** are available now! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2024.01.27]**  🤗 Huggingface demo will be available soon! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 😮 Highlights
 
-MoE-LLaVA shows excellent performance in multi-modal learning.
-
-### 🔥 High performance, but with fewer parameters
-- with just **3B sparsely activated parameters**, MoE-LLaVA demonstrates performance comparable to the LLaVA-1.5-7B on various visual understanding datasets and even surpasses the LLaVA-1.5-13B in object hallucination benchmarks.
-
+LLMBind demonstrates promising results in advancing the development of human-like MLLM and AI agents.
+### 🔥 A unified model integration framework
+- We design a **unified model integration framework** that expands task-specific tokens for diverse modality tasks, thus easily integrating different tasks into a unified LLM, where we introduce the MoE technique in our framework to better handle diverse modality tasks.
 <p align="center">
 <img src="assets/intro0.jpg" width=55%>
 </p>
 
-### 🚀 Simple baseline, learning multi-modal interactions with sparse pathways.
-- With the addition of **a simple MoE tuning stage**, we can complete the training of MoE-LLaVA on **8 A100 GPUs** within 1 days.
+### 🔥 A unified MLLM with various modality tasks
+- We propose **a unified MLLM** that is compatible with **various modality tasks**, including image segmentation, image generation, image editing, video generation, and audio generation.
 
 <p align="center">
 <img src="assets/intro.jpg" width=65%>
 </p>
 
-## 🤗 Demo
 
-### Gradio Web UI  <a href='https://github.com/gradio-app/gradio'><img src='https://img.shields.io/github/stars/gradio-app/gradio'></a> 
+### 🔥 Interactive generation and editing datasets
+- To facilitate the development of user-friendly interactive tasks, we construct a dataset of 400k interactive generation and editing multi-turn dialogues using ChatGPT. We plan to release this dataset as an open resource to foster collaborative advancements in this field.
 
-Highly recommend trying out our web demo by the following command, which incorporates all features currently supported by MoE-LLaVA. We also provide [online demo](https://huggingface.co/spaces/LanguageBind/MoE-LLaVA) in Huggingface Spaces.
-```bash
-# use phi2
-deepspeed --include localhost:0 moellava/serve/gradio_web_server.py --model-path "LanguageBind/MoE-LLaVA-Phi2-2.7B-4e" 
-# use qwen
-deepspeed --include localhost:0 moellava/serve/gradio_web_server.py --model-path "LanguageBind/MoE-LLaVA-Qwen-1.8B-4e" 
-# use stablelm
-deepspeed --include localhost:0 moellava/serve/gradio_web_server.py --model-path "LanguageBind/MoE-LLaVA-StableLM-1.6B-4e" 
-```
-
-
-
-https://github.com/PKU-YuanGroup/LLMBind/assets/62638829/8541aac6-9ef6-4fde-aa94-80d0375b9bdb
-
-
-
-### CLI Inference
-
-```bash
-# use phi2
-deepspeed --include localhost:0 moellava/serve/cli.py --model-path "LanguageBind/MoE-LLaVA-Phi2-2.7B-4e"  --image-file "image.jpg"
-# use qwen
-deepspeed --include localhost:0 moellava/serve/cli.py --model-path "LanguageBind/MoE-LLaVA-Qwen-1.8B-4e"  --image-file "image.jpg"
-# use stablelm
-deepspeed --include localhost:0 moellava/serve/cli.py --model-path "LanguageBind/MoE-LLaVA-StableLM-1.6B-4e"  --image-file "image.jpg"
-```
-
-<img src="assets/imagecli.gif" />
+<p align="center">
+<img src="assets/intro.jpg" width=65%>
+</p>
 
 ## 🐳 Model Zoo
 
