@@ -36,7 +36,7 @@ deepspeed --master_port=24999 train_ds.py \
   --steps_per_epoch 500 \
   --epochs 10 \
   --batch_size   16 \
-  --model_max_length 1024 \
+  --model_max_length  768 \
   --add_generation_token \
   --add_edit_token \
   --add_video_generation_token \
@@ -47,6 +47,7 @@ deepspeed --master_port=24999 train_ds.py \
 ```
 For example:
 ```
+cd  /remote-home/zhubin/LLMBind 
 export PATH=/usr/local/cuda-11.8/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH
 ```
@@ -61,8 +62,8 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
   --exp_name="llmbind-7b" \
   --steps_per_epoch 500 \
   --epochs 2 \
-  --batch_size   16  \
-  --model_max_length 1024 \
+  --batch_size   12  \
+  --model_max_length  768 \
   --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
   --vqa_sample_rates='2,70,70,70' \
   --add_generation_token \
@@ -83,8 +84,8 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
   --exp_name="llmbind-7b" \
   --steps_per_epoch 3 \
   --epochs 2 \
-  --batch_size   16  \
-  --model_max_length 1024 \
+  --batch_size   12  \
+  --model_max_length  768 \
   --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
   --vqa_sample_rates='2,70,70,70'  \
   --add_generation_token \
@@ -94,7 +95,7 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
 ```
 `branch main(splitseg) `
 ```
-HF_DATASETS_OFFLINES=1 deepspeed --master_port=24991 --include=localhost:3 train_ds_splitseg.py \
+HF_DATASETS_OFFLINES=1 deepspeed --master_port=24990 --include=localhost:4  train_ds_splitseg.py \
   --version="liuhaotian/llava-v1.5-7b" \
   --dataset_dir='./llmbind_dataset' \
   --vision_pretrained="cache/sam_vit_h_4b8939.pth" \
@@ -104,7 +105,7 @@ HF_DATASETS_OFFLINES=1 deepspeed --master_port=24991 --include=localhost:3 train
   --steps_per_epoch 3 \
   --epochs 2 \
   --batch_size   16  \
-  --model_max_length 1024 \
+  --model_max_length  768 \
   --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
   --vqa_sample_rates='2,70,70,70'  \
   --add_generation_token \
