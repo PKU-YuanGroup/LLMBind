@@ -11,7 +11,17 @@ tokenizer = transformers.AutoTokenizer.from_pretrained(
 ```
 - add `--vqa_sample_rates` for different VQA-Tasks.
 
-
+- set  `special tokens` for different modality-tasks
+```
+DEFAULT_GEN_START_TOKEN = "<gen>"
+DEFAULT_GEN_END_TOKEN = "</gen>"
+DEFAULT_VID_GEN_START_TOKEN = "<vid_cap>"
+DEFAULT_VID_GEN_END_TOKEN = "</vid_cap>"
+DEFAULT_AUD_GEN_START_TOKEN = "<aud_cap>"
+DEFAULT_AUD_GEN_END_TOKEN = "</audio_cap>"
+DEFAULT_EDIT_START_TOKEN = "<edit>"
+DEFAULT_EDIT_END_TOKEN = "</edit>"
+```
 
 
 ### Training
@@ -24,10 +34,16 @@ deepspeed --master_port=24999 train_ds.py \
   --sample_rates="9,3,3,1" \
   --exp_name="llmbind-7b" \
   --steps_per_epoch 500 \
+  --epochs 10 \
   --batch_size   16 \
   --model_max_length 1024 \
-  --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
-  --vqa_sample_rates='2,70,70,70' 
+  --add_generation_token \
+  --add_edit_token \
+  --add_video_generation_token \
+  --add_audio_generation_token \
+  --vqa_sample_rates='2,70,70,70' \
+  --vqa_data "gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
+ 
 ```
 For example:
 ```
@@ -44,10 +60,15 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
   --sample_rates="9,3,3,1" \
   --exp_name="llmbind-7b" \
   --steps_per_epoch 500 \
+  --epochs 2 \
   --batch_size   16  \
   --model_max_length 1024 \
   --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
-  --vqa_sample_rates='2,70,70,70' 
+  --vqa_sample_rates='2,70,70,70' \
+  --add_generation_token \
+  --add_edit_token \
+  --add_video_generation_token \
+  --add_audio_generation_token 
 ```
 #### LLaVA1-5
 ```
@@ -58,11 +79,16 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
   --dataset="sem_seg||refer_seg||vqa||reason_seg" \
   --sample_rates="9,3,3,1" \
   --exp_name="llmbind-7b" \
-  --steps_per_epoch 500 \
+  --steps_per_epoch 3 \
+  --epochs 2 \
   --batch_size   16  \
   --model_max_length 1024 \
   --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
-  --vqa_sample_rates='2,70,70,70' 
+  --vqa_sample_rates='2,70,70,70'  \
+  --add_generation_token \
+  --add_edit_token \
+  --add_video_generation_token \
+  --add_audio_generation_token 
 ```
 
 When training is finished, to get the full model weight:

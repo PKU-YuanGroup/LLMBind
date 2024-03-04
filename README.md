@@ -41,25 +41,28 @@ LLMBind demonstrates promising results in advancing the development of human-lik
 ### 🔥 A unified model integration framework
 - We design a **unified model integration framework** that expands task-specific tokens for diverse modality tasks, thus easily integrating different tasks into a unified LLM, where we introduce the MoE technique in our framework to better handle diverse modality tasks.
 <p align="center">
-<img src="assets/intro0.jpg" width=55%>
+<img src="assets/LLMBind_framework_0201.png" width=80%>
 </p>
 
 ### 🔥 A unified MLLM with various modality tasks
 - We propose **a unified MLLM** that is compatible with **various modality tasks**, including image segmentation, image generation, image editing, video generation, and audio generation.
 
 <p align="center">
-<img src="assets/intro.jpg" width=65%>
+<img src="assets/conversation-0130.png" width=80%>
 </p>
 
 
 ### 🔥 Interactive generation and editing datasets
 - To facilitate the development of user-friendly interactive tasks, we construct a dataset of 400k interactive generation and editing multi-turn dialogues using ChatGPT. We plan to release this dataset as an open resource to foster collaborative advancements in this field.
 
-<p align="center">
-<img src="assets/intro.jpg" width=65%>
-</p>
-
-
+<div style="display: flex; justify-content: center;">
+  <div style="flex: 1; max-width: 40%;">
+    <img src="assets/LLMBind_Dataset2.png" width="100%">
+  </div>
+  <div style="flex: 1; max-width: 40%;">
+    <img src="assets/chatgpt-prompt.png" width="100%">
+  </div>
+</div>
 
 ## ⚙️ Requirements and Installation
 We recommend the requirements as follows.
