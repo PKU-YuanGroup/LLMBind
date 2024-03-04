@@ -88,6 +88,68 @@ cd flash-attention && pip install .
 # pip install csrc/rotary
 ```
 
+## Dataset preparation
+### 1. Reasoning segmentation dataset: 
+[ReasonSeg](https://github.com/dvlab-research/LISA#dataset)
+Download them from the above links, and organize them as follows.
+
+```
+├── llmbind_dataset
+│   ├── ade20k
+│   │   ├── annotations
+│   │   └── images
+│   ├── coco
+│   │   └── train2017
+│   │       ├── 000000000009.jpg
+│   │       └── ...
+│   ├── cocostuff
+│   │   └── train2017
+│   │       ├── 000000000009.png
+│   │       └── ...
+│   ├── llava_dataset
+│   │   └── llava_instruct_150k.json
+│   ├── mapillary
+│   │   ├── config_v2.0.json
+│   │   ├── testing
+│   │   ├── training
+│   │   └── validation
+│   ├── reason_seg
+│   │   └── ReasonSeg
+│   │       ├── train
+│   │       ├── val
+│   │       └── explanatory
+│   ├── refer_seg
+│   │   ├── images
+│   │   |   ├── saiapr_tc-12 
+│   │   |   └── mscoco
+│   │   |       └── images
+│   │   |           └── train2014
+│   │   ├── refclef
+│   │   ├── refcoco
+│   │   ├── refcoco+
+│   │   └── refcocog
+│   └── vlpart
+│       ├── paco
+│       │   └── annotations
+│       └── pascal_part
+│           ├── train.json
+│           └── VOCdevkit
+```
+
+### 2. Interactive generation and editing dataset: 
+[Download_error](xxxxxx)
+
+Download them from the above links, and organize them as follows.
+```
+├── llmbind_dataset
+│   ├── interactive_dataset
+│   │   ├── audio_t2x_format.json
+│   │   ├── image_t2x_format.json
+│   │   ├── video_t2x_format.json
+│   │   └── gpt_interactive_generation_and_editing_format.json
+```
+
+
 ## 🗝️ Training & Validating
 The training & validating instruction is in [TRAIN.md](docs/TRAIN.md) & [EVAL.md](docs/EVAL.md).
 
