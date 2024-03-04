@@ -41,7 +41,7 @@ LLMBind demonstrates promising results in advancing the development of human-lik
 ### 🔥 A unified model integration framework
 - We design a **unified model integration framework** that expands task-specific tokens for diverse modality tasks, thus easily integrating different tasks into a unified LLM, where we introduce the MoE technique in our framework to better handle diverse modality tasks.
 <p align="center">
-<img src="assets/LLMBind_framework_0201.png" width=80%>
+<img src="assets/LLMBind_framework_0201.png" width=100%>
 </p>
 
 ### 🔥 A unified MLLM with various modality tasks
