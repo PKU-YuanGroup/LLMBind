@@ -22,6 +22,11 @@ DEFAULT_AUD_GEN_END_TOKEN = "</audio_cap>"
 DEFAULT_EDIT_START_TOKEN = "<edit>"
 DEFAULT_EDIT_END_TOKEN = "</edit>"
 ```
+-  initialize the messages in `conv_llava_v1`
+```
+messages=(("Human", "Hi!"), ("Assistant", "Hi there! I'm LLMBind, a smart AI assistant. How can I help you today?")),
+```
+
 
 
 ### Training
@@ -36,13 +41,14 @@ deepspeed --master_port=24999 train_ds.py \
   --steps_per_epoch 500 \
   --epochs 10 \
   --batch_size   16 \
-  --model_max_length 1024 \
+  --model_max_length 768 \
   --add_generation_token \
   --add_edit_token \
   --add_video_generation_token \
   --add_audio_generation_token \
   --vqa_sample_rates='2,70,70,70' \
   --vqa_data "gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
+  --lora_r 8 
  
 ```
 For example:
@@ -62,17 +68,18 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
   --steps_per_epoch 500 \
   --epochs 2 \
   --batch_size   16  \
-  --model_max_length 1024 \
+  --model_max_length 768 \
   --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
   --vqa_sample_rates='2,70,70,70' \
   --add_generation_token \
   --add_edit_token \
   --add_video_generation_token \
-  --add_audio_generation_token 
+  --add_audio_generation_token \
+  --lora_r 8 
 ```
 #### LLaVA1-5
 ```
-deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
+deepspeed --master_port=24998 --include=localhost:6 train_ds.py \
   --version="liuhaotian/llava-v1.5-7b" \
   --dataset_dir='./llmbind_dataset' \
   --vision_pretrained="cache/sam_vit_h_4b8939.pth" \
@@ -81,14 +88,15 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
   --exp_name="llmbind-7b" \
   --steps_per_epoch 3 \
   --epochs 2 \
-  --batch_size   16  \
-  --model_max_length 1024 \
+  --batch_size   12  \
+  --model_max_length 768 \
   --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
   --vqa_sample_rates='2,70,70,70'  \
   --add_generation_token \
   --add_edit_token \
   --add_video_generation_token \
-  --add_audio_generation_token 
+  --add_audio_generation_token \
+  --lora_r 8 
 ```
 
 When training is finished, to get the full model weight:

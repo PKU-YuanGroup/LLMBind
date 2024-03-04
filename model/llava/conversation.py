@@ -351,13 +351,13 @@ conv_llava_v0_mmtag = Conversation(
     sep="###",
     version="v0_mmtag",
 )
-
+# messages
 conv_llava_v1 = Conversation(
     system="A chat between a curious human and an artificial intelligence assistant. "
     "The assistant gives helpful, detailed, and polite answers to the human's questions.",
     roles=("USER", "ASSISTANT"),
     version="v1",
-    messages=(),
+    messages=(("Human", "Hi!"), ("Assistant", "Hi there! I'm LLMBind, a smart AI assistant. How can I help you today?")),
     offset=0,
     sep_style=SeparatorStyle.TWO,
     sep=" ",

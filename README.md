@@ -17,7 +17,8 @@
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/MoE-LLaVA?color=success&label=Issues)](https://github.com/PKU-YuanGroup/LLMBind/issues?q=is%3Aissue+is%3Aclosed)  <br>
 </h5>
 
-<details open><summary>💡 I also have other multi-modal projects that may interest you ✨. </summary><p>
+<!--  open -->
+<details ><summary>💡 I also have other multi-modal projects that may interest you ✨. </summary><p>
 <!--  may -->
 
 > [**LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment**](https://arxiv.org/abs/2310.01852) <br>
@@ -41,7 +42,7 @@ LLMBind demonstrates promising results in advancing the development of human-lik
 ### 🔥 A unified model integration framework
 - We design a **unified model integration framework** that expands task-specific tokens for diverse modality tasks, thus easily integrating different tasks into a unified LLM, where we introduce the MoE technique in our framework to better handle diverse modality tasks.
 <p align="center">
-<img src="assets/LLMBind_framework_0201.png" width=80%>
+<img src="assets/LLMBind_framework_0201.png" width=100%>
 </p>
 
 ### 🔥 A unified MLLM with various modality tasks
