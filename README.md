@@ -48,21 +48,21 @@ LLMBind demonstrates promising results in advancing the development of human-lik
 - We propose **a unified MLLM** that is compatible with **various modality tasks**, including image segmentation, image generation, image editing, video generation, and audio generation.
 
 <p align="center">
-<img src="assets/conversation-0130.png" width=80%>
+<img src="assets/conversation-0130.png" width=100%>
 </p>
 
 
 ### 🔥 Interactive generation and editing datasets
 - To facilitate the development of user-friendly interactive tasks, we construct a dataset of 400k interactive generation and editing multi-turn dialogues using ChatGPT. We plan to release this dataset as an open resource to foster collaborative advancements in this field.
 
-<div style="display: flex; justify-content: center;">
+<!-- <div style="display: flex; justify-content: center;">
   <div style="flex: 1; max-width: 40%;">
     <img src="assets/LLMBind_Dataset2.png" width="100%">
   </div>
   <div style="flex: 1; max-width: 40%;">
     <img src="assets/chatgpt-prompt.png" width="100%">
   </div>
-</div>
+</div> -->
 
 ## ⚙️ Requirements and Installation
 We recommend the requirements as follows.
