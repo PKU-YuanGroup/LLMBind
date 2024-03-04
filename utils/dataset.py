@@ -180,7 +180,8 @@ class HybridDataset(torch.utils.data.Dataset):
         sample_rate=[9, 3, 3, 1],
         sem_seg_data="ade20k||cocostuff||partimagenet||pascal_part||paco_lvis||mapillary",
         refer_seg_data="refclef||refcoco||refcoco+||refcocog",
-        vqa_data="llava_instruct_150k",
+        vqa_data="llava_v1_5_mix665k||minidalle3_v3_392272_filter||audio_t2x_format||image_t2x_format||video_t2x_format",
+        vqa_sample_rates='1,2,70,70,70',
         reason_seg_data="ReasonSeg|train",
         explanatory=0.1,
     ):
@@ -241,6 +242,8 @@ class HybridDataset(torch.utils.data.Dataset):
                         num_classes_per_sample,
                         exclude_val,
                         vqa_data,
+                        # FIXME 
+                        vqa_sample_rates
                     )
                 )
             elif dataset == "reason_seg":

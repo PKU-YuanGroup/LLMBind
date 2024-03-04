@@ -106,8 +106,8 @@ Download them from the above links, and organize them as follows.
 │   │   └── train2017
 │   │       ├── 000000000009.png
 │   │       └── ...
-│   ├── llava_dataset
-│   │   └── llava_instruct_150k.json
+│   ├── vqa_dataset
+│   │   └── llava_v1_5_mix665k.json
 │   ├── mapillary
 │   │   ├── config_v2.0.json
 │   │   ├── testing
@@ -142,7 +142,7 @@ Download them from the above links, and organize them as follows.
 Download them from the above links, and organize them as follows.
 ```
 ├── llmbind_dataset
-│   ├── interactive_dataset
+│   ├── vqa_dataset
 │   │   ├── audio_t2x_format.json
 │   │   ├── image_t2x_format.json
 │   │   ├── video_t2x_format.json

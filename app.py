@@ -12,7 +12,7 @@ import torch.nn.functional as F
 from PIL import Image
 from transformers import AutoTokenizer, BitsAndBytesConfig, CLIPImageProcessor
 
-from model.LISA import LISAForCausalLM
+from model.LLMBind import LISAForCausalLM
 from model.llava import conversation as conversation_lib
 from model.llava.mm_utils import tokenizer_image_token
 from model.segment_anything.utils.transforms import ResizeLongestSide
