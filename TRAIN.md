@@ -71,6 +71,8 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
   --add_audio_generation_token 
 ```
 #### LLaVA1-5
+
+`branch no_seg_split`
 ```
 deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
   --version="liuhaotian/llava-v1.5-7b" \
@@ -89,6 +91,27 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
   --add_edit_token \
   --add_video_generation_token \
   --add_audio_generation_token 
+```
+`branch main(splitseg) `
+```
+HF_DATASETS_OFFLINES=1 deepspeed --master_port=24991 --include=localhost:3 train_ds_splitseg.py \
+  --version="liuhaotian/llava-v1.5-7b" \
+  --dataset_dir='./llmbind_dataset' \
+  --vision_pretrained="cache/sam_vit_h_4b8939.pth" \
+  --dataset="sem_seg||refer_seg||vqa||reason_seg" \
+  --sample_rates="9,3,3,1" \
+  --exp_name="llmbind-7b-splitseg" \
+  --steps_per_epoch 3 \
+  --epochs 2 \
+  --batch_size   16  \
+  --model_max_length 1024 \
+  --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
+  --vqa_sample_rates='2,70,70,70'  \
+  --add_generation_token \
+  --add_edit_token \
+  --add_video_generation_token \
+  --add_audio_generation_token \
+  --lora_r 8 
 ```
 
 When training is finished, to get the full model weight:

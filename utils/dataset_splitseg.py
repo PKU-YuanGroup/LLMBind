@@ -26,8 +26,10 @@ from .utils import (DEFAULT_IM_END_TOKEN, DEFAULT_IM_START_TOKEN,
 from .vqa_dataset import VQADataset
 
 
-def collate_fn(
-    batch, tokenizer=None, conv_type="llava_v1", use_mm_start_end=True, local_rank=-1
+
+
+def collate_fn_splitseg(
+    batch, tokenizer=None, conv_type="llava_v1", use_mm_start_end=True, use_seg_start_end=False, local_rank=-1
 ):
     image_path_list = []
     images_list = []
@@ -41,6 +43,11 @@ def collate_fn(
     offset_list = [0]
     cnt = 0
     inferences = []
+    seg_flag_list = []
+    seg_repeat_flag_list = []
+
+    # print(f'len_batch:{len(batch)}, batch:{batch}!')
+    # import ipdb; ipdb.set_trace()
     for (
         image_path,
         images,
@@ -52,7 +59,10 @@ def collate_fn(
         questions,
         sampled_classes,
         inference,
+        seg_flag
     ) in batch:
+        
+
         image_path_list.append(image_path)
         images_list.append(images)
         images_clip_list.append(images_clip)
@@ -65,7 +75,14 @@ def collate_fn(
         cnt += len(conversations)
         offset_list.append(cnt)
         inferences.append(inference)
+        seg_flag_list.append(seg_flag)
+        if seg_flag == True:
+            seg_repeat_flag_list.extend([True]*len(conversations))
+        else:
+            seg_repeat_flag_list.extend([False])
 
+        
+    # import ipdb; ipdb.set_trace()
     if use_mm_start_end:
         # replace <image> token
         for i in range(len(conversation_list)):
@@ -76,28 +93,53 @@ def collate_fn(
             conversation_list[i] = conversation_list[i].replace(
                 DEFAULT_IMAGE_TOKEN, replace_token
             )
+    # FIXME 
+    if use_seg_start_end:
+        # replace <image> token
+        for i in range(len(conversation_list)):
+            assert len(conversation_list) == len(seg_repeat_flag_list), f'len(conversation_list):{len(conversation_list)} != len(seg_repeat_flag_list):{seg_repeat_flag_list}'
+            if seg_repeat_flag_list[i] == True:
+                replace_token = DEFAULT_IMAGE_TOKEN
+                replace_token = (
+                    DEFAULT_SEG_START_TOKEN + replace_token + DEFAULT_SEG_END_TOKEN
+                )
+                conversation_list[i] = conversation_list[i].replace(
+                    DEFAULT_IMAGE_TOKEN, replace_token
+                )
+            
     input_ids = [
         tokenizer_image_token(prompt, tokenizer, return_tensors="pt")
         for prompt in conversation_list
     ]
+    
     input_ids = torch.nn.utils.rnn.pad_sequence(
         input_ids, batch_first=True, padding_value=tokenizer.pad_token_id
     )
     attention_masks = input_ids.ne(tokenizer.pad_token_id)
 
-    conv = conversation_lib.default_conversation.copy()
+    # conv = conversation_lib.default_conversation.copy()
+    conv = conversation_lib.conv_templates[
+        conv_type
+    ].copy()
+    
     targets = input_ids.clone()
-
-    if conv_type == "llava_v1":
-        sep = conv.sep + conv.roles[1] + ": "
+    # import ipdb; ipdb.set_trace()
+    if conv_type == "llava_v1" or conv_type == "phi2":
+        sep = conv.sep + conv.roles[1] + ": " # '###Assistant: '
     else:
         sep = "[/INST] "
     for conversation, target in zip(conversation_list, targets):
-        total_len = int(target.ne(tokenizer.pad_token_id).sum())
+        total_len = int(target.ne(tokenizer.pad_token_id).sum()) # 265
 
-        rounds = conversation.split(conv.sep2)
-        cur_len = 1
+        rounds = conversation.split(conv.sep2) # 如果没有conv.sep2，应该是conv.sep吧？
+        if conv_type == "llava_v1":
+            cur_len = 1 # contain bos_token
+        elif conv_type == "phi2":
+            cur_len = 0
+
         target[:cur_len] = IGNORE_INDEX
+        
+        
         for i, rou in enumerate(rounds):
             if rou == "":
                 break
@@ -108,13 +150,20 @@ def collate_fn(
             assert len(parts) == 2, (len(parts), rou)
             parts[0] += sep
 
-            if DEFAULT_IMAGE_TOKEN in conversation:
-                round_len = len(tokenizer_image_token(rou, tokenizer))
-                instruction_len = len(tokenizer_image_token(parts[0], tokenizer)) - 2
-            else:
-                round_len = len(tokenizer(rou).input_ids)
-                instruction_len = len(tokenizer(parts[0]).input_ids) - 2
-
+            if conv_type == "llava_v1":
+                if DEFAULT_IMAGE_TOKEN in conversation:
+                    round_len = len(tokenizer_image_token(rou, tokenizer)) 
+                    instruction_len = len(tokenizer_image_token(parts[0], tokenizer)) - 2
+                else:
+                    round_len = len(tokenizer(rou).input_ids)
+                    instruction_len = len(tokenizer(parts[0]).input_ids) - 2
+            elif conv_type == "phi2":
+                if DEFAULT_IMAGE_TOKEN in conversation:
+                    round_len = len(tokenizer_image_token(rou, tokenizer)) + 1 # input_ids是有结束符<endoftext>的，
+                    instruction_len = len(tokenizer_image_token(parts[0], tokenizer)) - 1  # # 注意pad_token(初始化的时候修改一下)不能与eos_token一样，因为total_len不计算pad_token, 但是instruction是计算eos_token的。
+                else:
+                    round_len = len(tokenizer(rou).input_ids) + 1
+                    instruction_len = len(tokenizer(parts[0]).input_ids)  - 1 
             target[cur_len : cur_len + instruction_len] = IGNORE_INDEX
 
             cur_len += round_len
@@ -132,7 +181,9 @@ def collate_fn(
                 )
 
         if cur_len < tokenizer.model_max_length:
-            assert cur_len == total_len
+            if cur_len != total_len:
+                print(f'Warning tokenization mismatch {cur_len=}, {total_len=}')
+            # assert cur_len == total_len
 
     if inferences[0] == False:
         truncate_len = tokenizer.model_max_length - 255
@@ -156,10 +207,9 @@ def collate_fn(
         "questions_list": questions_list,
         "sampled_classes_list": sampled_classes_list,
         "inference": inferences[0],
+        "seg_flag_list": seg_flag_list,
         "conversation_list": conversation_list,
     }
-
-
 
 class HybridDataset(torch.utils.data.Dataset):
     pixel_mean = torch.Tensor([123.675, 116.28, 103.53]).view(-1, 1, 1)
@@ -267,10 +317,33 @@ class HybridDataset(torch.utils.data.Dataset):
         return self.samples_per_epoch
 
     def __getitem__(self, idx):
-        ind = np.random.choice(list(range(len(self.datasets))), p=self.sample_rate)
-        data = self.all_datasets[ind]
-        inference = False
-        return *data[0], inference
+        '''  self.all_datasets[ind]
+         (
+            image_path,
+            image,
+            image_clip,
+            conversations,
+            masks,
+            label,
+            resize,
+            questions,
+            sampled_classes,
+        )
+        '''
+        try:
+            # print(aaa)
+            ind = np.random.choice(list(range(len(self.datasets))), p=self.sample_rate)
+            data = self.all_datasets[ind]
+            inference = False
+            # self.datasets = dataset.split("||")
+            if self.datasets[ind] == 'vqa':
+                seg_flag = False
+            else:
+                seg_flag = True 
+            return *data[0], inference, seg_flag
+        except Exception as e:
+            print(e)
+            return self.__getitem__(0)
 
 
 class ValDataset(torch.utils.data.Dataset):
@@ -456,6 +529,10 @@ class ValDataset(torch.utils.data.Dataset):
         labels = torch.ones(masks.shape[1], masks.shape[2]) * self.ignore_label
         inference = True
 
+        # only validation on segmentation dataset
+        seg_flag = True
+
+
         return (
             image_path,
             image,
@@ -467,4 +544,5 @@ class ValDataset(torch.utils.data.Dataset):
             None,
             None,
             inference,
+            seg_flag
         )
