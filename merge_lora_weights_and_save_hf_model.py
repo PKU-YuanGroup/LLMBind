@@ -52,6 +52,16 @@ def parse_args(args):
     )
     parser.add_argument("--weight", default="", type=str, required=True)
     parser.add_argument("--save_path", default="./lisa_model", type=str, required=True)
+
+
+
+
+    #===
+    parser.add_argument("--add_video_generation_token", action="store_true", default=False)
+    parser.add_argument("--add_audio_generation_token", action="store_true", default=False)
+    parser.add_argument("--add_generation_token", action="store_true", default=False)
+    parser.add_argument("--add_edit_token", action="store_true", default=False)
+
     return parser.parse_args(args)
 
 
@@ -75,6 +85,25 @@ def main(args):
         tokenizer.add_tokens(
             [DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN], special_tokens=True
         )
+    # ======================= for generation and edition task ==================
+    # add_tokens
+    DEFAULT_GEN_START_TOKEN = "<gen>"
+    DEFAULT_GEN_END_TOKEN = "</gen>"
+    DEFAULT_VID_GEN_START_TOKEN = "<vid_cap>"
+    DEFAULT_VID_GEN_END_TOKEN = "</vid_cap>"
+    DEFAULT_AUD_GEN_START_TOKEN = "<aud_cap>"
+    DEFAULT_AUD_GEN_END_TOKEN = "</audio_cap>"
+    DEFAULT_EDIT_START_TOKEN = "<edit>"
+    DEFAULT_EDIT_END_TOKEN = "</edit>"
+    if  args.add_generation_token:
+        tokenizer.add_tokens([DEFAULT_GEN_START_TOKEN, DEFAULT_GEN_END_TOKEN], special_tokens=False)
+    if  args.add_edit_token:
+        tokenizer.add_tokens([DEFAULT_EDIT_START_TOKEN, DEFAULT_EDIT_END_TOKEN], special_tokens=False)
+    if  args.add_video_generation_token:
+        tokenizer.add_tokens([DEFAULT_VID_GEN_START_TOKEN, DEFAULT_VID_GEN_END_TOKEN], special_tokens=False)
+    if  args.add_audio_generation_token:
+        tokenizer.add_tokens([DEFAULT_AUD_GEN_START_TOKEN, DEFAULT_AUD_GEN_END_TOKEN], special_tokens=False)
+    # ======================= for generation and edition task ==================
 
     model_args = {
         "train_mask_decoder": args.train_mask_decoder,

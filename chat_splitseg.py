@@ -8,7 +8,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoTokenizer, BitsAndBytesConfig, CLIPImageProcessor
 
-from model.LLMBind import LISAForCausalLM
+from model.LLMBind_splitseg import LISAForCausalLM
 from model.llava import conversation as conversation_lib
 from model.llava.mm_utils import tokenizer_image_token
 from model.segment_anything.utils.transforms import ResizeLongestSide
@@ -331,6 +331,7 @@ def main(args):
         input_ids = tokenizer_image_token(prompt, tokenizer, return_tensors="pt")
         input_ids = input_ids.unsqueeze(0).cuda()
 
+        # import ipdb;  ipdb.set_trace()
         # importy
         output_ids, pred_masks = model.evaluate(
             image_clip,
@@ -347,7 +348,9 @@ def main(args):
         text_output = text_output.replace("\n", "").replace("  ", " ")
         print("text_output: ", text_output)
 
-        for i, pred_mask in enumerate(pred_masks):
+        if pred_masks == None:
+            print("Answer doesn\'t contain <seg>!")
+        else:
             if pred_mask.shape[0] == 0:
                 continue
 

@@ -2,7 +2,7 @@
 <p align="center">
     <img src="https://upload.cc/i1/2024/02/26/kI0bhL.png" width="250" style="margin-bottom: 0.2;"/>
 <p>
-<h2 align="center"> <a href="https://arxiv.org/abs/2401.15947">LLMBind: A Unified Modality-Task Integration Framework</a></h2>
+<h2 align="center"> <a href="https://arxiv.org/abs/2402.14891">LLMBind: A Unified Modality-Task Integration Framework</a></h2>
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for latest update.  </h2>
 
 <h5 align="center">
@@ -10,11 +10,11 @@
 
 
 
-[![arXiv](https://img.shields.io/badge/Arxiv-2401.15947-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2401.15947) 
+[![arXiv](https://img.shields.io/badge/Arxiv-2401.15947-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2402.14891) 
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellow)](https://github.com/PKU-YuanGroup/LLMBind/blob/main/LICENSE) 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPKU-YuanGroup%2FMoE-LLaVA&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitor&edge_flat=false)](https://hits.seeyoufarm.com)
-[![GitHub issues](https://img.shields.io/github/issues/PKU-YuanGroup/MoE-LLaVA?color=critical&label=Issues)](https://github.com/PKU-YuanGroup/LLMBind/issues?q=is%3Aopen+is%3Aissue)
-[![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/MoE-LLaVA?color=success&label=Issues)](https://github.com/PKU-YuanGroup/LLMBind/issues?q=is%3Aissue+is%3Aclosed)  <br>
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPKU-YuanGroup%2FLLMBind&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitor&edge_flat=false)](https://hits.seeyoufarm.com)
+[![GitHub issues](https://img.shields.io/github/issues/PKU-YuanGroup/LLMBind?color=critical&label=Issues)](https://github.com/PKU-YuanGroup/LLMBind/issues?q=is%3Aopen+is%3Aissue)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/LLMBind?color=success&label=Issues)](https://github.com/PKU-YuanGroup/LLMBind/issues?q=is%3Aissue+is%3Aclosed)  <br>
 </h5>
 
 <details open><summary>💡 I also have other multi-modal projects that may interest you ✨. </summary><p>
@@ -137,7 +137,7 @@ Download them from the above links, and organize them as follows.
 
 
 ## Training & Validating
-The training & validating instruction is in [TRAIN.md](docs/TRAIN.md) & [EVAL.md](docs/EVAL.md).
+The training & validating instruction is in [TRAIN_EVAL.md](docs/TRAIN.md).
 
 ## Customizing your LLMBind
 The instruction is in [CUSTOM.md](docs/CUSTOM.md).
@@ -174,11 +174,11 @@ If you find our paper and code useful in your research, please consider giving a
 
 
 
-## Star History
-[![Star History Chart](https://api.star-history.com/svg?repos=PKU-YuanGroup/LLMBind&type=Date)](https://star-history.com/#PKU-YuanGroup/LLMBind&Date)
+<!-- ## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=PKU-YuanGroup/LLMBind&type=Date)](https://star-history.com/#PKU-YuanGroup/LLMBind&Date) -->
 
 ## 🤝 Contributors
 
 <a href="https://github.com/PKU-YuanGroup/LLMBind/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=PKU-YuanGroup/LLMBind" />
-</a>
+</a> 

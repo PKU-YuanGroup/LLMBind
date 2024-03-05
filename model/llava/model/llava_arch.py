@@ -119,11 +119,19 @@ class LlavaMetaForCausalLM(ABC):
                 and images is not None
                 and input_ids.shape[1] == 1
             ):
+                # import ipdb; ipdb.set_trace()
+                # attention_mask = torch.ones(
+                #     (attention_mask.shape[0], past_key_values[-1][-1].shape[-2] + 1),
+                #     dtype=attention_mask.dtype,
+                #     device=attention_mask.device,
+                # )
                 attention_mask = torch.ones(
-                    (attention_mask.shape[0], past_key_values[-1][-1].shape[-2] + 1),
-                    dtype=attention_mask.dtype,
-                    device=attention_mask.device,
+                    (input_ids.shape[0], past_key_values[-1][-1].shape[-2] + 1),
+                    dtype=input_ids.dtype,
+                    device=input_ids.device,
                 )
+
+
             return input_ids, attention_mask, past_key_values, None, labels
 
         if type(images) is list or images.ndim == 5:
