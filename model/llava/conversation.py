@@ -109,6 +109,10 @@ class Conversation:
     def append_message(self, role, message):
         self.messages.append([role, message])
 
+    # FIXME 
+    def update_last_message(self, role, message):
+        self.messages[-1] = [role, message]
+
     def get_images(self, return_pil=False):
         images = []
         for i, (role, msg) in enumerate(self.messages[self.offset :]):

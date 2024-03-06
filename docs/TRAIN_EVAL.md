@@ -30,6 +30,7 @@ deepspeed --master_port=24999 train_ds.py \
 ```
 For example:
 ```
+export  NCCL_P2P_DISABLE=1
 cd  /remote-home/zhubin/LLMBind 
 export PATH=/usr/local/cuda-11.8/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH
@@ -78,16 +79,16 @@ deepspeed --master_port=24999 --include=localhost:7 train_ds.py \
 ```
 `branch main(splitseg) `
 ```
-HF_DATASETS_OFFLINES=1 deepspeed --master_port=24990 --include=localhost:4  train_ds_splitseg.py \
+HF_DATASETS_OFFLINES=1 deepspeed --master_port=24990 --include=localhost:1,2,3,4,5,6  train_ds_splitseg.py \
   --version="liuhaotian/llava-v1.5-7b" \
   --dataset_dir='./llmbind_dataset' \
   --vision_pretrained="cache/sam_vit_h_4b8939.pth" \
   --dataset="sem_seg||refer_seg||vqa||reason_seg" \
   --sample_rates="9,3,3,1" \
-  --exp_name="llmbind-7b-splitseg" \
-  --steps_per_epoch 3 \
-  --epochs 2 \
-  --batch_size   16  \
+  --exp_name="llmbind-7b-splitseg_bs12_e40" \
+  --steps_per_epoch 50 \
+  --epochs 40 \
+  --batch_size   12  \
   --model_max_length  768 \
   --vqa_data="gpt_interactive_generation_and_editing_format||audio_t2x_format||image_t2x_format||video_t2x_format" \
   --vqa_sample_rates='2,70,70,70'  \
@@ -112,7 +113,12 @@ Merge the LoRA weights of `pytorch_model.bin`, save the resulting model into you
 CUDA_VISIBLE_DEVICES="" python merge_lora_weights_and_save_hf_model.py \
   --version="PATH_TO_LLaVA" \
   --weight="PATH_TO_pytorch_model.bin" \
-  --save_path="PATH_TO_SAVED_HF_MODEL"
+  --save_path="PATH_TO_SAVED_HF_MODEL" \
+  --vision_pretrained cache/sam_vit_h_4b8939.pth \
+  --add_generation_token \
+  --add_edit_token \
+  --add_video_generation_token \
+  --add_audio_generation_token 
 ```
 
 For example:
