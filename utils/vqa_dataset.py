@@ -95,7 +95,7 @@ class VQADataset(torch.utils.data.Dataset):
             idx = random.randint(0, len(self.vqa_data) - 1)
             item = self.vqa_data[idx]            
             if "image" in item:
-                image_path = os.path.join(self.vqa_image_root, item["image"].replace('coco/train2017/',''))
+                image_path = os.path.join(self.vqa_image_root, item["image"].replace('coco/train2017/','')) 
                 image = cv2.imread(image_path)
                 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                 ori_size = image.shape[:2]
