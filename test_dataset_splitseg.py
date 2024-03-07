@@ -244,9 +244,21 @@ def train(
         for i in range(args.grad_accumulation_steps):
             try:
                 input_dict = next(train_iter)
+                
+                seg_flag  = input_dict['seg_flag_list']
+                while True not in seg_flag:
+                    print('input_dict must contain seg_data!')
+                    input_dict = next(train_iter)     
+                    seg_flag  = input_dict['seg_flag_list']
             except:
                 train_iter = iter(train_loader)
                 input_dict = next(train_iter)
+
+                seg_flag  = input_dict['seg_flag_list']
+                while True not in seg_flag:
+                    print('input_dict must contain seg_data!')
+                    input_dict = next(train_iter)     
+                    seg_flag  = input_dict['seg_flag_list']
 
             data_time.update(time.time() - end)
             input_dict = dict_to_cuda(input_dict)
