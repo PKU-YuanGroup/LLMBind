@@ -140,9 +140,6 @@ Download part of them from [Huggingface](xxxx), and organize them as follows.
 
 ## Inference
 
-## Related Projects
-* [Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA) This framework empowers the model to efficiently utilize the united visual tokens.
-* [LanguageBind](https://github.com/PKU-YuanGroup/LanguageBind) An open source five modalities language-based retrieval framework.
 
 ## Acknowledgement
 * [LISA](https://github.com/haotian-liu/LLaVA) The codebase we built upon and it is an efficient large language and vision assistant.
