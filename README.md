@@ -20,20 +20,24 @@
 <details open><summary>💡 I also have other multi-modal projects that may interest you ✨. </summary><p>
 <!--  may -->
 
-> [**LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment**](https://arxiv.org/abs/2310.01852) <br>
-> Bin Zhu, Bin Lin, Munan Ning, Yang Yan, Jiaxi Cui, HongFa Wang, Yatian Pang, Wenhao Jiang, Junwu Zhang, Zongwei Li, Wancai Zhang, Zhifeng Li, Wei Liu, Li Yuan <br>
-[![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/LanguageBind)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/LanguageBind.svg?style=social)](https://github.com/PKU-YuanGroup/LanguageBind)  [![arXiv](https://img.shields.io/badge/Arxiv-2310.01852-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2310.01852) <br>
-
 
 > [**Video-LLaVA: Learning United Visual Representation by Alignment Before Projection**](https://arxiv.org/abs/2311.10122) <br>
 > Bin Lin, Yang Ye, Bin Zhu, Jiaxi Cui, Munan Ning, Peng Jin, Li Yuan <br>
 [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/Video-LLaVA)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/Video-LLaVA.svg?style=social)](https://github.com/PKU-YuanGroup/Video-LLaVA) [![arXiv](https://img.shields.io/badge/Arxiv-2311.10122-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2311.10122) <br>
 
+> [**LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment**](https://arxiv.org/abs/2310.01852) <br>
+> Bin Zhu, Bin Lin, Munan Ning, Yang Yan, Jiaxi Cui, HongFa Wang, Yatian Pang, Wenhao Jiang, Junwu Zhang, Zongwei Li, Wancai Zhang, Zhifeng Li, Wei Liu, Li Yuan <br>
+[![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/LanguageBind)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/LanguageBind.svg?style=social)](https://github.com/PKU-YuanGroup/LanguageBind)  [![arXiv](https://img.shields.io/badge/Arxiv-2310.01852-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2310.01852) <br>
+
+
+
 </p></details>
 
 
 ## News
-* **[2024.01.27]**  🤗 Huggingface demo will be available soon! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2024.06.15]**  🤗 Huggingface demo will be available soon! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2024.06.15]**  🤗 We have release part of our interactive generation and editing dataset in [Huggingface](xxx) and [GitHub](xxxx).
+
 
 ## Highlights
 
@@ -75,10 +79,20 @@ pip install flash-attn --no-build-isolation
 ```
 
 ## Dataset preparation
-### 1. Reasoning segmentation dataset: 
-[ReasonSeg](https://github.com/dvlab-research/LISA#dataset)
-Download them from the above links, and organize them as follows.
 
+### 1. Interactive generation and editing dataset: 
+
+Download part of them from [Huggingface](xxxx), and organize them as follows.
+```
+├── llmbind_dataset
+│   ├── interactive_dataset
+│   │   ├── interactive_audio_t2x_format.json
+│   │   ├── interactive_image_t2x_format.json
+│   │   ├── interactive_video_t2x_format.json
+│   │   └── interactive_generation_and_editing_format.json
+```
+### 2. Reasoning segmentation & Refering segmentation & VQA dataset: 
+[Download](https://github.com/dvlab-research/LISA#dataset) them and organize as follows.
 ```
 ├── llmbind_dataset
 │   ├── ade20k
@@ -92,7 +106,7 @@ Download them from the above links, and organize them as follows.
 │   │   └── train2017
 │   │       ├── 000000000009.png
 │   │       └── ...
-│   ├── vqa_dataset
+│   ├── llava_dataset
 │   │   └── llava_v1_5_mix665k.json
 │   ├── mapillary
 │   │   ├── config_v2.0.json
@@ -122,34 +136,16 @@ Download them from the above links, and organize them as follows.
 │           └── VOCdevkit
 ```
 
-### 2. Interactive generation and editing dataset: 
-[Download_error](xxxxxx)
+## Training
 
-Download them from the above links, and organize them as follows.
-```
-├── llmbind_dataset
-│   ├── vqa_dataset
-│   │   ├── audio_t2x_format.json
-│   │   ├── image_t2x_format.json
-│   │   ├── video_t2x_format.json
-│   │   └── gpt_interactive_generation_and_editing_format.json
-```
-
-
-## Training & Validating
-The training & validating instruction is in [TRAIN_EVAL.md](docs/TRAIN.md).
-
-## Customizing your LLMBind
-The instruction is in [CUSTOM.md](docs/CUSTOM.md).
-
-## Visualization
-The instruction is in [VISUALIZATION.md](docs/VISUALIZATION.md).
+## Inference
 
 ## Related Projects
 * [Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA) This framework empowers the model to efficiently utilize the united visual tokens.
 * [LanguageBind](https://github.com/PKU-YuanGroup/LanguageBind) An open source five modalities language-based retrieval framework.
 
 ## Acknowledgement
+* [LISA](https://github.com/haotian-liu/LLaVA) The codebase we built upon and it is an efficient large language and vision assistant.
 * [LLaVA](https://github.com/haotian-liu/LLaVA) The codebase we built upon and it is an efficient large language and vision assistant.
 
 ## License
@@ -157,10 +153,8 @@ The instruction is in [VISUALIZATION.md](docs/VISUALIZATION.md).
 * The service is a research preview intended for non-commercial use only, subject to the model [License](https://github.com/facebookresearch/llama/blob/main/MODEL_CARD.md) of LLaMA, [Terms of Use](https://openai.com/policies/terms-of-use) of the data generated by OpenAI, and [Privacy Practices](https://chrome.google.com/webstore/detail/sharegpt-share-your-chatg/daiacboceoaocpibfodeljbdfacokfjb) of ShareGPT. Please contact us if you find any potential violation.
 
 
-
 ## Citation
 If you find our paper and code useful in your research, please consider giving a star :star: and citation :pencil:.
-
 
 
 ```BibTeX
