@@ -82,7 +82,7 @@ pip install flash-attn --no-build-isolation
 
 ### 1. Interactive generation and editing dataset: 
 
-Download part of them from [Huggingface](xxxx), and organize them as follows.
+Download part of them from [LLMBind-GPT-Interactive-Data](https://huggingface.co/datasets/LanguageBind/LLMBind-GPT-Interactive-Data), and the `llmbind_dataset` folder.
 ```
 ├── llmbind_dataset
 │   ├── interactive_dataset
@@ -92,7 +92,7 @@ Download part of them from [Huggingface](xxxx), and organize them as follows.
 │   │   └── interactive_generation_and_editing_format.json
 ```
 ### 2. Reasoning segmentation & Refering segmentation & VQA dataset: 
-[Download](https://github.com/dvlab-research/LISA#dataset) them and organize as follows.
+[Download](https://github.com/dvlab-research/LISA#dataset) them put them into the `llmbind_dataset` folder.
 ```
 ├── llmbind_dataset
 │   ├── ade20k
@@ -108,6 +108,7 @@ Download part of them from [Huggingface](xxxx), and organize them as follows.
 │   │       └── ...
 │   ├── llava_dataset
 │   │   └── llava_v1_5_mix665k.json
+│   │   ├── llava_instruct_150k.json
 │   ├── mapillary
 │   │   ├── config_v2.0.json
 │   │   ├── testing
