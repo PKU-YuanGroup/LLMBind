@@ -2,7 +2,7 @@
 
 
 
-### 2. Training
+### 2. Training 
 
 #### 2.1 SAM ViT-H weights
 Download SAM ViT-H pre-trained weights from the [link](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
