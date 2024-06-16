@@ -36,7 +36,7 @@
 
 ## News
 * **[2024.06.15]**  🤗 Huggingface demo will be available soon! Welcome to **watch** 👀 this repository for the latest updates.
-* **[2024.06.15]**  🤗 We have release part of our interactive generation and editing dataset in [Huggingface](xxx) and [GitHub](xxxx).
+* **[2024.06.15]**  🤗 We have release part of our interactive generation and editing dataset in [Huggingface](https://huggingface.co/datasets/LanguageBind/LLMBind-GPT-Interactive-Data).
 
 
 ## Highlights
