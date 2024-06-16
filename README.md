@@ -82,7 +82,7 @@ pip install flash-attn --no-build-isolation
 
 ### 1. Interactive generation and editing dataset: 
 
-Download part of them from [LLMBind-GPT-Interactive-Data](https://huggingface.co/datasets/LanguageBind/LLMBind-GPT-Interactive-Data), and the `llmbind_dataset` folder.
+Download them from [LLMBind-GPT-Interactive-Data](https://huggingface.co/datasets/LanguageBind/LLMBind-GPT-Interactive-Data), and the `llmbind_dataset` folder.
 ```
 ├── llmbind_dataset
 │   ├── interactive_dataset
