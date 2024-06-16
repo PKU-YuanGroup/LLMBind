@@ -212,9 +212,8 @@ For example:
 HF_DATASETS_OFFLINES=1 CUDA_VISIBLE_DEVICES=7 python chat.py --version="runs/llmbind-7b/hf_weights"
 ```
 
-## Acknowledgement
-* [LISA](https://github.com/haotian-liu/LLaVA) The codebase we built upon and it is an efficient large language and vision assistant.
-* [LLaVA](https://github.com/haotian-liu/LLaVA) The codebase we built upon and it is an efficient large language and vision assistant.
+## Acknowledgement 
+-  This work is built upon the [LLaVA](https://github.com/haotian-liu/LLaVA), [SAM](https://github.com/facebookresearch/segment-anything) and [LISA](https://github.com/dvlab-research/LISA). 
 
 ## License
 * The majority of this project is released under the Apache 2.0 license as found in the [LICENSE](https://github.com/PKU-YuanGroup/LLMBind/blob/main/LICENSE) file.
