@@ -68,7 +68,7 @@ LLMBind demonstrates promising results in advancing the development of human-lik
   </div>
 </div> -->
 
-## Installation
+## 1. Installation
 ```bash
 git clone https://github.com/PKU-YuanGroup/LLMBind
 cd LLMBind
@@ -78,9 +78,9 @@ pip install -r requirements.txt
 pip install flash-attn --no-build-isolation
 ```
 
-## Dataset preparation
+## 2. Dataset preparation
 
-### 1. Interactive generation and editing dataset: 
+### 2.1 Interactive generation and editing dataset: 
 
 Download them from [LLMBind-GPT-Interactive-Data](https://huggingface.co/datasets/LanguageBind/LLMBind-GPT-Interactive-Data), and the `llmbind_dataset` folder.
 ```
@@ -91,7 +91,7 @@ Download them from [LLMBind-GPT-Interactive-Data](https://huggingface.co/dataset
 │   │   ├── interactive_video_t2x_format.json
 │   │   └── interactive_generation_and_editing_format.json
 ```
-### 2. Reasoning segmentation & Refering segmentation & VQA dataset: 
+### 2.2 Reasoning segmentation & Refering segmentation & VQA dataset: 
 [Download](https://github.com/dvlab-research/LISA#dataset) them put them into the `llmbind_dataset` folder.
 ```
 ├── llmbind_dataset
@@ -137,11 +137,62 @@ Download them from [LLMBind-GPT-Interactive-Data](https://huggingface.co/dataset
 │           └── VOCdevkit
 ```
 
-## Training
+## 3. Pre-trained weights
 
-## Inference
+### 3.1 LLaVA weights
+To train LLMBind-7B, you need to follow the instruction to merge the LLaVA delta weights. Typically, we use the final weights LLaVA-Lightning-7B-v1-1 merged from liuhaotian/LLaVA-Lightning-7B-delta-v1-1. 
+```
+from huggingface_hub import snapshot_download
+repo_name = 'liuhaotian/LLaVA-Lightning-7B-delta-v1-1'
+snapshot_download(repo_id=repo_name, local_dir="models/liuhaotian/LLaVA-Lightning-7B-delta-v1-1", local_dir_use_symlinks=False, max_workers=1 )
 
-## Merge LoRA Weight
+repo_name = 'yahma/llama-7b-hf'
+snapshot_download(repo_id=repo_name, local_dir="models/yahma/llama-7b-hf", local_dir_use_symlinks=False, max_workers=1 )
+
+cd model
+PATH_TO_LLAMA_7B=/storage/zhubin/LLMBind/models/yahma/llama-7b-hf
+PATH_TO_LLAVA_DELTA=/storage/zhubin/LLMBind/models/liuhaotian/LLaVA-Lightning-7B-delta-v1-1
+TARGET_PATH=models/LLaVA-7B-v1-1
+python3 -m model.apply_delta \
+    --base $PATH_TO_LLAMA_7B \
+    --target $TARGET_PATH  \
+    --delta $PATH_TO_LLAVA_DELTA
+```
+
+### 3.2 SAM weights
+Download SAM ViT-H pre-trained weights from [sam_vit_h_4b8939.pth](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth)
+
+
+## 4. Training 
+
+```
+PATH_TO_LLaVA="PATH_TO_LLaVA"
+PATH_TO_SAM="PATH_TO_SAM"
+deepspeed --include localhost:0,1,2,3,4,5,6,7,8 train_ds.py \
+  --version=$PATH_TO_LLaVA \
+  --dataset_dir='./llmbind_dataset' \
+  --vision_pretrained=$PATH_TO_SAM \
+  --dataset="sem_seg||refer_seg||vqa||reason_seg" \
+  --sample_rates="9,3,3,1" \
+  --exp_name="llmbind-7b" \
+  --steps_per_epoch 500 \
+  --epochs 10 \
+  --batch_size  16 \
+  --model_max_length  768 \
+  --add_generation_token \
+  --add_edit_token \
+  --add_video_generation_token \
+  --add_audio_generation_token \
+  --vqa_sample_rates='2,70,70,70' \
+  --vqa_data "interactive_generation_and_editing_format.json||interactive_video_t2x_format||interactive_image_t2x_format||interactive_audio_t2x_format" \
+```
+
+
+### 5.1 Merge LoRA Weight
+When training is finished, to get the full model weight:
+```
+cd ./runs/llmbind-7b/ckpt_model && python zero_to_fp32.py . ../pytorch_model.bin
+```
 Merge the LoRA weights of `pytorch_model.bin`, save the resulting model into your desired path in the Hugging Face format:
 ```
 CUDA_VISIBLE_DEVICES="" python merge_lora_weights_and_save_hf_model.py \
@@ -149,15 +200,17 @@ CUDA_VISIBLE_DEVICES="" python merge_lora_weights_and_save_hf_model.py \
   --weight="PATH_TO_pytorch_model.bin" \
   --save_path="PATH_TO_SAVED_MODEL"
 ```
+## 6. Inference
+
+- To chat with LLMBind:
+```
+CUDA_VISIBLE_DEVICES=0 python chat.py --version="PATH_TO_SAVED_HF_MODEL"
+```
 
 For example:
 ```
-CUDA_VISIBLE_DEVICES="" python3 merge_lora_weights_and_save_hf_model.py \
-  --version="./LLaVA/LLaVA-Lightning-7B-v1-1" \
-  --weight="lisa-7b/pytorch_model.bin" \
-  --save_path="./LISA-7B"
+HF_DATASETS_OFFLINES=1 CUDA_VISIBLE_DEVICES=7 python chat.py --version="runs/llmbind-7b/hf_weights"
 ```
-
 
 ## Acknowledgement
 * [LISA](https://github.com/haotian-liu/LLaVA) The codebase we built upon and it is an efficient large language and vision assistant.
