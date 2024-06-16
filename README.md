@@ -140,6 +140,23 @@ Download part of them from [Huggingface](xxxx), and organize them as follows.
 
 ## Inference
 
+## Merge LoRA Weight
+Merge the LoRA weights of `pytorch_model.bin`, save the resulting model into your desired path in the Hugging Face format:
+```
+CUDA_VISIBLE_DEVICES="" python merge_lora_weights_and_save_hf_model.py \
+  --version="PATH_TO_LLaVA" \
+  --weight="PATH_TO_pytorch_model.bin" \
+  --save_path="PATH_TO_SAVED_MODEL"
+```
+
+For example:
+```
+CUDA_VISIBLE_DEVICES="" python3 merge_lora_weights_and_save_hf_model.py \
+  --version="./LLaVA/LLaVA-Lightning-7B-v1-1" \
+  --weight="lisa-7b/pytorch_model.bin" \
+  --save_path="./LISA-7B"
+```
+
 
 ## Acknowledgement
 * [LISA](https://github.com/haotian-liu/LLaVA) The codebase we built upon and it is an efficient large language and vision assistant.
